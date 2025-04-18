@@ -1,15 +1,21 @@
 from fastapi import FastAPI
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from routers import crud
+from fastapi_pagination import add_pagination
 
 app = FastAPI(
     title="My fastAPI API", version="1.0.0", description="API de exemplo FastAPI"
 )
 
+add_pagination(app)
+
+app.include_router(crud.router)
 # declarando usuarios teste
 users = {"user1": "password1", "user2": "password2"}
 
 security = HTTPBasic()
+
 
 # Criação do metodo basico de autenticação
 def verify_password(credentials: HTTPBasicCredentials = Depends(security)):
@@ -25,9 +31,12 @@ def verify_password(credentials: HTTPBasicCredentials = Depends(security)):
 
 
 @app.get("/hello")
-async def home(username: str = Depends(verify_password)):
+async def hello(username: str = Depends(verify_password)):
     return "Hello, FastAPI"
+
 
 @app.get("/")
 async def home():
     return "Hello, FastAPI"
+
+

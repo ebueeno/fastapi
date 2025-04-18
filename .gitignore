@@ -1,1 +1,12 @@
-/venv
+# Ambientes virtuais
+venv/
+env/
+.venv/
+.virtualenv/
+
+# Bytecode compilado
+__pycache__/
+*.py[cod]
+
+# Cache
+*.cache
